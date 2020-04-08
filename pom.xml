@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.ddossec</groupId>
+    <artifactId>vhr_parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0</version>
+
+    <!-- 当前父工程的子模块 -->
+    <modules>
+        <!-- 公共实体模块 -->
+        <module>entity</module>
+        <module>common</module>
+        <module>web_permissions</module>
+    </modules>
+
+    <!-- springboot父工程 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.6.RELEASE</version>
+    </parent>
+
+    <!-- 集中定义版本号 -->
+    <properties>
+        <java.version>1.8</java.version>
+        <!-- 项目构建的编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+</project>

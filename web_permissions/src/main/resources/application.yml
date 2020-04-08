@@ -1,0 +1,24 @@
+spring:
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://xhh.ddos-sec.cn:3306/vhr?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: 1234
+    # 阿里巴巴的datasource
+    type: com.alibaba.druid.pool.DruidDataSource
+
+logging:
+  level:
+    com.qc: debug
+  # 日志持久化路径
+  # path: "D:/test/test.log"
+
+server:    #端口
+  port: 8001
+
+#mybatisplus的配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*Mapper.xml
