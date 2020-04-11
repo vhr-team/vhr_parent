@@ -11,19 +11,14 @@
 
     <!-- 当前父工程的子模块 -->
     <modules>
-        <!-- 公共实体模块 -->
-        <module>entity</module>
-        <module>common</module>
-        <module>web_permissions</module>
+        <module>vhr_permissions</module>
     </modules>
-
     <!-- springboot父工程 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.6.RELEASE</version>
     </parent>
-
     <!-- 集中定义版本号 -->
     <properties>
         <java.version>1.8</java.version>
