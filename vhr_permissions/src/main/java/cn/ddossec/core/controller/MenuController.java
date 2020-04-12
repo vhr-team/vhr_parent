@@ -19,20 +19,14 @@ import java.util.List;
  * @date 2020-04-089:53
  */
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/system")
 public class MenuController {
 
     @Autowired
     private MenuService menuService;
 
-    @GetMapping("/loadLeftMenuJsonByUid")
+    @GetMapping("/cfg/loadLeftMenuJsonByUid")
     public List<Menu> loadLeftMenuJsonByUid() {
         return menuService.loadLeftMenuJsonByUid(((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
     }
-
-    @GetMapping("/")
-    public List<Menu> getAllMenusWithRole(){
-        return menuService.getAllMenusWithRole();
-    }
-
 }
