@@ -26,8 +26,13 @@ public class MenuController {
     private MenuService menuService;
 
     @GetMapping("/loadLeftMenuJsonByUid")
-    public List<Menu> loadLeftMenuJsonByUid(){
-        return menuService.loadLeftMenuJsonByUid(((Hr)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
+    public List<Menu> loadLeftMenuJsonByUid() {
+        return menuService.loadLeftMenuJsonByUid(((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
+    }
+
+    @GetMapping("/")
+    public List<Menu> getAllMenusWithRole(){
+        return menuService.getAllMenusWithRole();
     }
 
 }

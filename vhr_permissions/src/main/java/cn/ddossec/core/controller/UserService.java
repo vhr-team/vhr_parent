@@ -1,7 +1,8 @@
-package cn.ddossec.core.service;
+package cn.ddossec.core.controller;
 
 import cn.ddossec.core.entity.Hr;
 import cn.ddossec.core.mapper.HrMapper;
+import cn.ddossec.core.service.HrService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,9 +30,13 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Hr hr = hrService.loadUserByUserName(username);
         if(hr == null){
+            log.debug("登录失败!");
             throw new UsernameNotFoundException("用户名不存在!");
         }
-        log.debug("用户存在");
+        log.debug("登录成功!");
+
+        // 根据登录的用户ID，查询用户角色
+        hr.setRoles(hrService.getHrRolesById(hr.getId()));
         return hr;
     }
 }

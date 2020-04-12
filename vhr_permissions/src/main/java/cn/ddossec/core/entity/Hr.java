@@ -8,17 +8,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
-    * @title: Hr
-    * @projectName vhr_parent
-    * @description: TODO
-    * @author 30315
-    * @date 2020-04-0615:09
-    */
+ * @author 30315
+ * @title: Hr
+ * @projectName vhr_parent
+ * @description: TODO
+ * @date 2020-04-0615:09
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -95,10 +98,18 @@ public class Hr implements UserDetails {
 
     public static final String COL_REMARK = "remark";
 
+    /* 该字段数据中没有，所以需要加上以下注解，备注为不存在的字段 */
+    @TableField(exist = false)
+    private List<Role> roles;
+
     /* 该用户的角色 */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>(roles.size());
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return authorities;
     }
 
     /* 账户是否没有过期 */

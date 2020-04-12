@@ -1,25 +1,26 @@
 package cn.ddossec.core.config;
 
 import cn.ddossec.core.entity.Hr;
-import cn.ddossec.core.service.HrService;
-import cn.ddossec.core.service.UserService;
+import cn.ddossec.core.controller.UserService;
 import cn.ddossec.core.utils.ResponseResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.*;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.web.cors.CorsConfiguration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,9 +39,17 @@ import java.io.PrintWriter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+    @Autowired
+    private CustomUrlFilterInvocationSecurityMetadataSource customUrlFilterInvocationSecurityMetadataSource;
+    @Autowired
+    private CustomUrlDecisionManager customUrlDecisionManager;
 
-    /* 密码加密方式 */
+    /**
+     * 加密方式
+     *
+     * @return
+     */
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -51,11 +60,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService);
     }
 
+    /**
+     * 登录不用经过SpringSecurity拦截
+     *
+     * @param web
+     * @throws Exception
+     */
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/login");
+    }
+
+    /**
+     * 登录成功，退出成功
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 /* 所有的请求都需要认证之后才可以访问 */
-                .anyRequest().authenticated()
+                // .anyRequest().authenticated()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setAccessDecisionManager(customUrlDecisionManager);
+                        o.setSecurityMetadataSource(customUrlFilterInvocationSecurityMetadataSource);
+                        return o;
+                    }
+                })
                 .and()
                 /* 表单登录 */
                 .formLogin()
@@ -64,7 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 /* 登录处理的Url */
                 .loginProcessingUrl("/doLogin")
                 /* 登录页面 */
-                // .loginPage("/login")
+                .loginPage("/login")
                 /* 登录成功的回调 */
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override

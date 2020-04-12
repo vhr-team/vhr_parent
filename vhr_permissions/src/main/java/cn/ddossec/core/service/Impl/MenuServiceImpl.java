@@ -2,6 +2,7 @@ package cn.ddossec.core.service.Impl;
 
 import cn.ddossec.core.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.ddossec.core.mapper.MenuMapper;
@@ -25,5 +26,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Override
     public List<Menu> loadLeftMenuJsonByUid(Integer id) {
         return menuMapper.loadLeftMenuJsonByUid(id);
+    }
+
+    // @Cacheable
+    @Override
+    public List<Menu> getAllMenusWithRole() {
+        return menuMapper.getAllMenusWithRole();
     }
 }

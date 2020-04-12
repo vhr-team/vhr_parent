@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     @GetMapping("/login")
-    public ResponseResult login(){
+    public ResponseResult login() {
         return ResponseResult.error("尚未登录,请登录");
     }
 

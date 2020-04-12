@@ -1,5 +1,6 @@
 package cn.ddossec.core.service.Impl;
 
+import cn.ddossec.core.entity.Role;
 import cn.ddossec.core.service.HrService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +25,25 @@ public class HrServiceImpl extends ServiceImpl<HrMapper, Hr> implements HrServic
     @Autowired
     private HrMapper hrMapper;
 
+    /**
+     * 根据用户名查询用户
+     * @param username
+     * @return
+     */
     @Override
     public Hr loadUserByUserName(String username) {
         QueryWrapper<Hr> wrapper = new QueryWrapper<>();
         wrapper.eq("username", username);
         return hrMapper.selectOne(wrapper);
+    }
+
+    /**
+     * 根据登录用户ID，查询用户角色
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Role> getHrRolesById(Integer id) {
+        return hrMapper.getHrRolesById(id);
     }
 }

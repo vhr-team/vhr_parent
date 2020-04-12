@@ -22,9 +22,11 @@ import java.util.List;
 @NoArgsConstructor
 @TableName(value = "menu")
 public class Menu {
+
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    /* 接口Url */
     @TableField(value = "url")
     private String url;
 
@@ -36,15 +38,16 @@ public class Menu {
     @TableField(value = "component")
     private String component;
 
+    /* 菜单名称 */
     @TableField(value = "name")
     private String name;
 
+    /* 菜单图标 */
     @TableField(value = "icon")
     private String icon;
 
     @TableField(value = "keepAlive")
     private Boolean keepalive;
-
 
     @TableField(value = "requireAuth")
     private Boolean requireauth;
@@ -60,8 +63,12 @@ public class Menu {
     @TableField(exist = false)
     private Meta meta;
 
+    /* 子菜单项 */
     @TableField(exist = false)
     private List<Menu> children;
+
+    @TableField(exist = false)
+    private List<Role> roles;
 
     public static final String COL_ID = "id";
 

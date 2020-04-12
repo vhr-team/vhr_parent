@@ -10,7 +10,7 @@ spring:
 
 logging:
   level:
-    com.qc: debug
+    cn.ddossec: debug
   # 日志持久化路径
   # path: "D:/test/test.log"
 
