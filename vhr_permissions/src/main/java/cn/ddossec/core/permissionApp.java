@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @title: permissionApp
  * @projectName vhr_parent
  * @description: 权限模块的启动类
- * @date 2020-04-0613:52
+ * @date 2020-04-06 13:52
  */
 @SpringBootApplication
 @MapperScan(basePackages = {"cn.ddossec.core.mapper"})
